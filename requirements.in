@@ -1,6 +1,7 @@
 asyncpg==0.31.0
+bcrypt==4.0.1
 fastapi==0.127.0
-fastapi_users==15.0.3
+fastapi_users[sqlalchemy]==15.0.3
 geoalchemy2==0.18.1
 psycopg2==2.9.11
 pydantic==2.12.5

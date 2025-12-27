@@ -18,6 +18,7 @@ argon2-cffi-bindings==25.1.0
     # via argon2-cffi
 asyncpg==0.31.0
     # via -r requirements.in
+bcrypt==4.0.1
 cffi==2.0.0
     # via
     #   argon2-cffi-bindings
@@ -36,7 +37,7 @@ fastapi==0.127.0
     # via
     #   -r requirements.in
     #   fastapi-users
-fastapi-users==15.0.3
+fastapi-users[sqlalchemy]==15.0.3
     # via -r requirements.in
 geoalchemy2==0.18.1
     # via -r requirements.in
