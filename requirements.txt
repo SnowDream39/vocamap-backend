@@ -18,8 +18,6 @@ argon2-cffi-bindings==25.1.0
     # via argon2-cffi
 asyncpg==0.31.0
     # via -r requirements.in
-bcrypt==5.0.0
-    # via pwdlib
 cffi==2.0.0
     # via
     #   argon2-cffi-bindings
