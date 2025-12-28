@@ -56,8 +56,8 @@ full_activity_select = [
 select_full_from_activity_stmt = (
     select(*full_activity_select)
     .select_from(Activity)
-    .join(ActivityTag, ActivityTag.activity_id == Activity.id)
-    .join(Tag, ActivityTag.tag_id == Tag.id)
+    .outerjoin(ActivityTag, ActivityTag.activity_id == Activity.id)
+    .outerjoin(Tag, ActivityTag.tag_id == Tag.id)
     .outerjoin(User, User.id == Activity.owner_id)
     .group_by(*act_sel_columns, *user_sel_columns)
 )
