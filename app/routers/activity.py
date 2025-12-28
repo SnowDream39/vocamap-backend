@@ -24,7 +24,7 @@ async def get_activity(
     return await get_activity_by_id(activity_id, session)
 
 # 指定user_id，查询该user参加的所有活动
-@router.get("/by_holder")
+@router.get("/by_owner")
 async def get_activities_by_holder(
     user_id: int = Query(...),
     session: AsyncSession = Depends(get_async_session)
