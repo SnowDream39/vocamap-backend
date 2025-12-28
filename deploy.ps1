@@ -4,7 +4,7 @@ Write-Host "🚀 正在命令服务器部署..." -ForegroundColor Cyan
 # 你的服务器信息（请自行修改）
 $serverUser = "root"
 $serverHost = "8.209.210.116"
-$remotePath = "/var/www/Vocabili-database"
+$remotePath = "/var/www/vocamap-backend"
 
 ssh "$serverUser@$serverHost" "cd $remotePath; source /var/www/vocamap-backend/venv/bin/activate; git pull; /root/.local/share/pnpm/pm2 restart vocamap-api --update-env;"
 

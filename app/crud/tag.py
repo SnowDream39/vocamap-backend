@@ -42,6 +42,23 @@ async def popular_artist_tags(
 
     return rows
 
+async def search_artist_tags(
+    keyword: str,
+    session: AsyncSession
+):
+    stmt = (
+        select(Tag)
+        .where(Tag.type == TagTypeEnum.artist)
+        .where(Tag.name.ilike(f"%{keyword}%"))
+    )
+
+
+    result = await session.execute(stmt)
+    rows = result.scalars().all()
+    
+    return rows
+
+
 async def get_all_category_tags(
     session: AsyncSession
 ):

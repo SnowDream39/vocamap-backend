@@ -36,6 +36,13 @@ async def create(
         tag_id = await create_artist(tag, session)    
         return {"success": True, "tag_id": tag_id}
 
+# 搜索标签（只能搜索artist标签）
+@router.get("/search_artist")
+async def search(
+    keyword: str = Query(...),
+    session: AsyncSession = Depends(get_async_session)
+    ):
+    return await search_artist_tags(keyword, session)
 
 # 删除标签，仅管理员
 router.delete("/delete/{tag_id}")

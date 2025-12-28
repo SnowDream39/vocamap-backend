@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query, Depends, Body
+from fastapi import APIRouter, Query, Depends, Body
 from typing import List
 from app.schemas.activity import ActivityCreate, ActivityRead, ActivityUpdate
 from datetime import datetime, timezone, timedelta
