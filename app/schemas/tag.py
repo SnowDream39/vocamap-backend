@@ -17,8 +17,7 @@ class TagRead(BaseModel):
     type: TagTypeEnum
     name: str
 
-class TagCreate(BaseModel):
-    type: TagTypeEnum
+class ArtistCreate(BaseModel):
     name: str
 
 class TagUpdate(BaseModel):
@@ -26,5 +25,5 @@ class TagUpdate(BaseModel):
     name: Optional[str]
 
 class TagBatchCreate(BaseModel):
-    tags: List[TagCreate]
+    tags: List[ArtistCreate]
 

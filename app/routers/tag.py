@@ -1,42 +1,46 @@
 from fastapi import APIRouter, HTTPException, Query, Body, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.session import get_async_session
-from app.schemas.tag import TagCreate, TagRead, TagBatchCreate
-from app.models import User, Tag
-from app.user_manager import current_super_user
+from app.schemas.tag import *
+from app.models import User
+from app.user_manager import current_active_user, current_super_user
 from app.crud.tag import *
-from typing import List
 
 
 router = APIRouter(prefix="/tag", tags=["Tag"])
 
 # 查询热门标签
-# 前端路由形式为 GET '/api/tag/famous'
 @router.get("/popular")
-async def get_popular_tags(
+async def get_popular_artists(
     session: AsyncSession = Depends(get_async_session)
 ):
 
-    return await popular_tags(session)
+    return await popular_artist_tags(session)
 
-# 创建单个标签，仅管理员
-# 前端路由形式为 POST '/api/tag/create?user_id={user_id}' json
-@router.post("/create")
+# 获取类别标签列表
+@router.get("/category")
+async def get_category_tags(
+    session: AsyncSession = Depends(get_async_session)
+):
+
+    return await get_all_category_tags(session)
+
+# 创建单个标签（仅允许artist标签）
+@router.post("/create_artist")
 async def create(
-    tag: TagCreate = Body(...), 
-    user: User = Depends(current_super_user),
+    tag: ArtistCreate = Body(...), 
+    user: User = Depends(current_active_user),
     session: AsyncSession = Depends(get_async_session),
     ):
 
-        tag_id = await create_tag(tag, session)    
+        tag_id = await create_artist(tag, session)    
         return {"success": True, "tag_id": tag_id}
 
 
 # 删除标签，仅管理员
-# 前端路由形式为 DELETE '/api/tag/delete_tag/{tag_id}?user_id={user_id}'
 router.delete("/delete/{tag_id}")
 async def delete(
-    tag_id: int, user_id: int = Query(...),
+    tag_id: int,
     user: User = Depends(current_super_user),
     session: AsyncSession = Depends(get_async_session)
     ):

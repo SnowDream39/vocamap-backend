@@ -249,7 +249,7 @@ async def create_activity(
         activity.model_dump(
             include={
                 "name","start_time","end_time",
-                "min_member","max_member","description"
+                "location","max_member","description"
             }
         )
     )

@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import *
 from app.schemas.tag import *
 
-async def create_tag(
-    tag: TagCreate, 
+async def create_artist(
+    tag: ArtistCreate, 
     session: AsyncSession
 ) -> int:
     stmt = select(Tag.id).where(Tag.name == tag.name)
@@ -14,7 +14,7 @@ async def create_tag(
     
     stmt = insert(Tag).values(
         name=tag.name,
-        type=tag.type,
+        type=TagTypeEnum.artist
     ).returning(Tag.id)
     result = await session.execute(stmt)
     tag_id = result.scalar_one()
@@ -23,20 +23,30 @@ async def create_tag(
     return tag_id
 
 
-async def popular_tags(
+async def popular_artist_tags(
     session: AsyncSession
 ):
     stmt = (
         select(Tag)
         .join(ActivityTag, Tag.id == ActivityTag.tag_id)
+        .where(Tag.type == TagTypeEnum.artist)
         .group_by(Tag.id)
         .order_by(func.count(ActivityTag.activity_id).desc())
     )
- 
+
 
     result = await session.execute(stmt)
     rows = result.scalars().all()
 
+
+    return rows
+
+async def get_all_category_tags(
+    session: AsyncSession
+):
+    stmt = select(Tag).where(Tag.type == TagTypeEnum.category)
+    result = await session.execute(stmt)
+    rows = result.scalars().all()
 
     return rows
 
