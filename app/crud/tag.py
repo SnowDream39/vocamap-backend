@@ -1,3 +1,4 @@
+from fastapi import  HTTPException
 from sqlalchemy import insert, select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import *
@@ -10,7 +11,7 @@ async def create_artist(
     stmt = select(Tag.id).where(Tag.name == tag.name)
     result = await session.execute(stmt)
     if result.scalar_one_or_none():
-        raise Exception("标签已存在")
+        raise HTTPException(400, detail="标签已存在")
     
     stmt = insert(Tag).values(
         name=tag.name,
@@ -59,7 +60,7 @@ async def delete_tag(
     result = await session.execute(stmt)
     tag = result.scalar_one_or_none()
     if not tag:
-        raise Exception("标签不存在")
+        raise HTTPException(404, detail="标签不存在")
     await session.delete(tag)
     
     
