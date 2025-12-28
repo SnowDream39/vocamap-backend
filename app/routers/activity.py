@@ -138,24 +138,22 @@ async def activity_delete(
 
 
 # 用户报名活动
-# 前端路由为 POST "/api/activity/join/{activity_id}?user_id={user_id}"
 @router.post("/join/{activity_id}")
 async def join_activity(
     activity_id: int, 
-    user_id: int,
+    user: User = Depends(current_active_user),
     session: AsyncSession = Depends(get_async_session),
     ):
     
-    return await user_join_activity(activity_id, user_id, session)
+    return await user_join_activity(activity_id, user.id, session)
 
 
 # 用户退出活动
-# 前端路由为 POST "/api/activity/leave/{activity_id}?user_id={user_id}"
 @router.post("/leave/{activity_id}")
 async def leave_activity(
     activity_id: int, 
-    user_id: int,
+    user: User = Depends(current_active_user),
     session: AsyncSession = Depends(get_async_session)
     ):
     
-    return await user_leave_activity(activity_id, user_id, session)
+    return await user_leave_activity(activity_id, user.id, session)
